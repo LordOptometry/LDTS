@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class Application {
     public static void main(String[] args) throws IOException {
+
         Screen screen = null;
         try {
             Terminal terminal = new DefaultTerminalFactory().createTerminal();
@@ -28,7 +29,7 @@ public class Application {
 
         TextCharacter[] fromCharacter = new TextCharacter[0];
         screen.clear();
-        screen.setCharacter(10,10, fromCharacter('X')[0]);
+        screen.setCharacter(10, 10, TextCharacter.fromCharacter('X')[0]);
         screen.refresh();
     }
 
