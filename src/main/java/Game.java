@@ -1,7 +1,7 @@
 import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class Game {
@@ -9,19 +9,16 @@ public class Game {
         Game game = new Game();
         Screen.run(game);
     }
-
-    static Hero hero = new Hero(10, 10);
-
     public interface Screen{
         Screen screen = null;
-        void setCursorPosition(Object o);
-        void startScreen();
-        void doResizeIfNecessary();
+
+        Position position = new Position(10,10);
+        Hero hero  = new Hero(position);
 
         private static void draw() throws IOException{
 
             screen.clear();
-            screen.setCharacter(hero.getheight(), hero.getwidth(), TextCharacter.fromCharacter('X')[0]);
+            screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
             screen.refresh();
         }
 
@@ -30,17 +27,18 @@ public class Game {
 
             System.out.println(key);
 
+
             if(key.getKeyType() == KeyType.ArrowUp){
-                screen.setCharacter(x, y + 1, TextCharacter.fromCharacter('X')[0]);
+                screen.setCharacter(hero.getX(), hero.getY() + 1, TextCharacter.fromCharacter('X')[0]);
             }
             if(key.getKeyType() == KeyType.ArrowDown){
-                screen.setCharacter(x, y - 1, TextCharacter.fromCharacter('X')[0]);
+                screen.setCharacter(hero.getX(), hero.getY() - 1, TextCharacter.fromCharacter('X')[0]);
             }
             if(key.getKeyType() == KeyType.ArrowRight){
-                screen.setCharacter(x + 1, y, TextCharacter.fromCharacter('X')[0]);
+                screen.setCharacter(hero.getX() + 1, hero.getY(), TextCharacter.fromCharacter('X')[0]);
             }
             if(key.getKeyType() == KeyType.ArrowLeft){
-                screen.setCharacter(x - 1, y , TextCharacter.fromCharacter('X')[0]);
+                screen.setCharacter(hero.getX() - 1, hero.getY() , TextCharacter.fromCharacter('X')[0]);
             }
             if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
                 screen.clear();

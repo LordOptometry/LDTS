@@ -1,9 +1,15 @@
 public class Hero {
 
-    Hero hero = new Hero(10,10);
+    private Position position;
 
-    public Hero(int height, int width) {}
+    public Hero(Position position) {
+        this.position = position;
+    }
 
-    public void getheight(){return height;}
-    public void getwidth(){return width;}
+    public int getX(){return position.getx();}
+    public int getY(){return position.gety();}
+
+    public void setX(int x){position.setx(x);}
+    public void setY(int y){position.setx(y);}
+
 }
