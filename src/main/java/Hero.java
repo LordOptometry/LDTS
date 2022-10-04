@@ -3,19 +3,21 @@ import com.googlecode.lanterna.screen.Screen;
 
 public class Hero {
 
-    private Position position;
+    private int x;
+    private int y;
 
-    public Hero(Position position) {
-        this.position = position;
+    public Hero(int x, int y){
+        this.x = x;
+        this.y = y;
     }
 
     public void draw(Screen screen){
-        screen.setCharacter(position.getx(), position.gety(), TextCharacter.fromCharacter('X')[0]);
+        screen.setCharacter(getX(), getY(), TextCharacter.fromCharacter('X')[0]);
     }
-    public int getX(){return position.getx();}
-    public int getY(){return position.gety();}
+    public int getX(){return x;}
+    public int getY(){return y;}
 
-    public void setX(int x){position.setx(x);}
-    public void setY(int y){position.sety(y);}
+    public void setX(int x){this.x += x ;}
+    public void setY(int y){this.y += y;}
 
 }

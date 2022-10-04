@@ -10,9 +10,9 @@ import java.io.IOException;
 
 public class Game {
     private final TerminalScreen screen;
-    private int x = 10;
-    private int y = 10;
+    private Hero hero;
     public Game(int  width, int height) throws IOException {
+        hero = new Hero(10, 10);
 
         Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(width, height)).createTerminal();
         screen = new TerminalScreen(terminal);
@@ -23,7 +23,7 @@ public class Game {
     }
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+        hero.draw(screen);
         screen.refresh();
     }
     public void run() throws IOException {
@@ -43,20 +43,20 @@ public class Game {
     private void processKey(KeyStroke key) throws IOException {
         System.out.println(key);
         if(key.getKeyType() == KeyType.ArrowUp){
-            y--;
-            screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+            hero.setY(-1);
+            screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
         }
         if(key.getKeyType() == KeyType.ArrowDown){
-            y++;
-            screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+            hero.setY(1);
+            screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
         }
         if(key.getKeyType() == KeyType.ArrowLeft){
-            x--;
-            screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+            hero.setX(-1);
+            screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
         }
         if(key.getKeyType() == KeyType.ArrowRight){
-            x++;
-            screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+            hero.setX(1);
+            screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
         }
     }
 }
