@@ -1,8 +1,10 @@
-import com.googlecode.lanterna.*;
+import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
 
 import java.io.IOException;
 
@@ -11,16 +13,13 @@ public class Arena {
     private int height;
 
     private Hero hero;
-    private Screen screen;
-
     private TextGraphics graphics;
 
     Position position = new Position(10, 10);
 
-    public Arena(int width, int height, Screen screen) throws IOException {
+    public Arena(int width, int height) throws IOException {
         this.width = width;
         this.height = height;
-        this.screen = screen;
         hero = new Hero(position);
     }
 
@@ -37,19 +36,15 @@ public class Arena {
         System.out.println(key);
         if(key.getKeyType() == KeyType.ArrowUp){
             moveHero(hero.moveUp());
-            screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
         }
         if(key.getKeyType() == KeyType.ArrowDown){
             moveHero(hero.moveDown());
-            screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
         }
         if(key.getKeyType() == KeyType.ArrowLeft){
             moveHero(hero.moveLeft());
-            screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
         }
         if(key.getKeyType() == KeyType.ArrowRight){
             moveHero(hero.moveRight());
-            screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
         }
     }
     private void moveHero(Position position){

@@ -19,7 +19,7 @@ public class Game {
         screen.startScreen();             // screens must be started
         screen.doResizeIfNecessary();     // resize screen if necessary
         TerminalSize terminalSize = new TerminalSize(width, height);
-        arena = new Arena(40,40, screen);
+        arena = new Arena(40,40);
     }
 
 
