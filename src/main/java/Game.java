@@ -13,20 +13,20 @@ public class Game {
     private Arena arena;
 
     public Game(int  width, int height) throws IOException {
-        arena = new Arena(40,40);
         Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(width, height)).createTerminal();
         screen = new TerminalScreen(terminal);
         screen.setCursorPosition(null);   // we don’t need a cursor
         screen.startScreen();             // screens must be started
         screen.doResizeIfNecessary();     // resize screen if necessary
         TerminalSize terminalSize = new TerminalSize(width, height);
+        arena = new Arena(40,40, screen);
     }
 
 
 
     private void draw() throws IOException {
         screen.clear();
-        arena.draw(screen);
+        arena.draw(screen.newTextGraphics());
         screen.refresh();
     }
 

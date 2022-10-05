@@ -1,4 +1,5 @@
-import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.*;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -12,17 +13,24 @@ public class Arena {
     private Hero hero;
     private Screen screen;
 
+    private TextGraphics graphics;
+
     Position position = new Position(10, 10);
 
-    public Arena(int width, int height) throws IOException {
+    public Arena(int width, int height, Screen screen) throws IOException {
         this.width = width;
         this.height = height;
+        this.screen = screen;
         hero = new Hero(position);
     }
 
-    public void draw(Screen screen){
-        this.screen = screen;
-        screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
+    public void draw(TextGraphics graphics){
+        this.graphics = graphics;
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
+        graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
+        graphics.enableModifiers(SGR.BOLD);
+        graphics.putString(new TerminalPosition(position.getx(), position.gety()), "X");
     }
 
     public void processKey(KeyStroke key){
