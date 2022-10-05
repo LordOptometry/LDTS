@@ -13,7 +13,7 @@ public class Game {
     private Arena arena;
 
     public Game(int  width, int height) throws IOException {
-
+        arena = new Arena(40,40);
         Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(width, height)).createTerminal();
         screen = new TerminalScreen(terminal);
         screen.setCursorPosition(null);   // we don’t need a cursor

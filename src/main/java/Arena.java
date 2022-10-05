@@ -21,6 +21,7 @@ public class Arena {
     }
 
     public void draw(Screen screen){
+        this.screen = screen;
         screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
     }
 

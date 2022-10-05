@@ -6,15 +6,12 @@ public class Hero {
         this.position = position;
     }
 
-
     public int getX(){return position.getx();}
     public int getY(){return position.gety();}
 
     public void setX(int x){position.setx(x);}
     public void setY(int y){position.sety(y);}
-    public Position moveUp() {
-        return new Position(position.getx(), position.gety() - 1);
-    }
+    public Position moveUp() {return new Position(position.getx(), position.gety() - 1);}
     public Position moveDown() {
         return new Position(position.getx(), position.gety() + 1);
     }
