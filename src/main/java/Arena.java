@@ -32,13 +32,17 @@ public class Arena {
         List<Wall> walls = new ArrayList<>();
 
         for (int c = 0; c < width; c++){
-            walls.add(new Wall(c, 0));
-            walls.add(new Wall(c, height -1));
+            Position position2 = new Position (c, 0);
+            walls.add(new Wall(position2));
+            Position position3 = new Position(c, height-1);
+            walls.add(new Wall(position3));
         }
 
         for (int r = 1; r< height - 1; r++){
-            walls.add(new Wall(0, r));
-            walls.add(new Wall(width - 1, r));
+            Position position2 = new Position (0, r);
+            walls.add(new Wall(position2));
+            Position position3 = new Position(width - 1, r);
+            walls.add(new Wall(position3));
         }
 
         return walls;
@@ -78,9 +82,22 @@ public class Arena {
         }
     }
     public boolean canHeroMove(Position position){
-        if(position.getx() == width - 1 || position.getx() == 0){return false;}
-        if(position.gety() == height - 6 || position.gety() == 0){return false;}
-        else {return true;}
+       for(Wall wall : walls){
+           if(wall.getPosition().equals(position)){
+               return false;
+           }
+       }
+       return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        Position p = (Position) o;
+        return position.getx() == p.getx() && position.gety() == p.gety();
     }
 
 }
+

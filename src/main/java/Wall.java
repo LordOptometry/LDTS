@@ -7,27 +7,21 @@ import java.util.List;
 
 public class Wall {
     private List<Wall> walls;
-    private int c;
-    private int i;
+    private Position position;
     private TextGraphics graphics;
 
-    public Wall(int c, int i) {
-        this.c = c;
-        this.i = i;
+    public Wall(Position position) {
+        this.position = position;
     }
 
-    public int getC() {
-        return c;
-    }
-
-    public int getI() {
-        return i;
+    public Position getPosition() {
+        return position;
     }
 
     public void draw(TextGraphics graphics) {
         this.graphics = graphics;
         graphics.setForegroundColor(TextColor.Factory.fromString("#2155B7"));
         graphics.enableModifiers(SGR.BORDERED);
-        graphics.putString(new TerminalPosition(c, i), ".");
+        graphics.putString(new TerminalPosition(position.getx(), position.gety()), ".");
     }
 }
