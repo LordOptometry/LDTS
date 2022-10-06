@@ -99,23 +99,15 @@ public class Arena {
         System.out.println(key);
         if(key.getKeyType() == KeyType.ArrowUp){
             moveHero(hero.moveUp());
-            verifyMonsterCollisions(hero.moveUp());
-            moveMonster();
         }
         if(key.getKeyType() == KeyType.ArrowDown){
             moveHero(hero.moveDown());
-            verifyMonsterCollisions(hero.moveDown());
-            moveMonster();
         }
         if(key.getKeyType() == KeyType.ArrowLeft){
             moveHero(hero.moveLeft());
-            verifyMonsterCollisions(hero.moveLeft());
-            moveMonster();
         }
         if(key.getKeyType() == KeyType.ArrowRight){
             moveHero(hero.moveRight());
-            verifyMonsterCollisions(hero.moveRight());
-            moveMonster();
         }
     }
     private void moveHero(Position position){
@@ -124,20 +116,21 @@ public class Arena {
         }
     }
 
-    private void moveMonster(){
-        boolean flag = false;
+    public void moveMonster(){
         for (Monster monster : monsters){
-            for(Wall wall : walls){
-                if(wall.getPosition().getx() == monster.move().getx() && wall.getPosition().gety() == monster.move().gety()){
-                    flag = true;
-                    break;
-                }
+            Position p = monster.move();
+            if(canMonsterMove(p)){
+                monster.setPosition(p);
             }
-            if(flag){
-                flag = false;
-            }
-            else{monster.setPosition(monster.move());}
         }
+    }
+    public boolean canMonsterMove(Position position){
+        for (Wall wall : walls) {
+            if (wall.getPosition().getx() == position.getx() && wall.getPosition().gety() == position.gety()) {
+                return false;
+            }
+        }
+        return true;
     }
     public boolean canHeroMove(Position position){
        for(Wall wall : walls){
@@ -149,22 +142,27 @@ public class Arena {
     }
 
 
-    public void retrieveCoins(){
+    public boolean retrieveCoins(){
+        if(coins.isEmpty()){
+            System.out.println("You WON!");
+            return true;
+        }
         for(Element.Coin coin : coins){
             if(coin.getX() == position.getx() && coin.getY() == position.gety()){
                 coins.remove(coin);
                 break;
             }
         }
+        return false;
     }
-    public void verifyMonsterCollisions(Position position){
+    public boolean verifyMonsterCollisions(){
         for(Monster monster : monsters){
             if(monster.getPosition().getx() == position.getx() && monster.getPosition().gety() == position.gety()){
-
                 System.out.println("WASTED");
-                break;
+                return true;
             }
         }
+        return false;
     }
 }
 
