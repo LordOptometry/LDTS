@@ -42,6 +42,6 @@ public class Monster extends Element{
         this.graphics = graphics;
         graphics.setForegroundColor(TextColor.Factory.fromString("#680FBC"));
         graphics.enableModifiers(SGR.BORDERED);
-        graphics.putString(new TerminalPosition(position.getx(), position.gety()), "@");
+        graphics.putString(new TerminalPosition(position.getx(), position.gety()), "W");
     }
 }

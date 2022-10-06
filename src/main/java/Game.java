@@ -36,14 +36,14 @@ public class Game {
             KeyStroke key = screen.readInput();
             processKey(key);
             arena.moveMonster();
-            if(arena.verifyMonsterCollisions() || arena.retrieveCoins()){
-                screen.close();
-            }
             if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
                 screen.close();
             }
             if(key.getKeyType() == KeyType.EOF){
                 break;
+            }
+            if( arena.retrieveCoins()){
+                screen.close();
             }
         }
     }

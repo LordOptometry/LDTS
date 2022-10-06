@@ -20,9 +20,11 @@ public class Arena {
 
     private List<Wall> walls;
 
-    private List<Element.Coin> coins;
+    private List<Coin> coins;
 
     private List<Monster> monsters;
+
+    private boolean flag;
 
 
     Position position = new Position(10, 10);
@@ -34,6 +36,7 @@ public class Arena {
         this.walls = createWalls();
         this.coins = createCoins();
         this.monsters = createMonsters();
+        this.flag = false;
     }
     private List<Wall> createWalls(){
         List<Wall> walls = new ArrayList<>();
@@ -54,11 +57,11 @@ public class Arena {
 
         return walls;
     }
-    private List<Element.Coin> createCoins() {
+    private List<Coin> createCoins() {
         Random random = new Random();
-        ArrayList<Element.Coin> coins = new ArrayList<>();
+        ArrayList<Coin> coins = new ArrayList<>();
         for (int i = 0; i < 5; i++)
-            coins.add(new Element.Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+            coins.add(new Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
         return coins;
     }
 
@@ -86,7 +89,7 @@ public class Arena {
         for (Wall wall : walls){
             wall.draw(graphics);
         }
-        for(Element.Coin coin : coins){
+        for(Coin coin : coins){
             coin.draw(graphics);
         }
 
@@ -99,15 +102,19 @@ public class Arena {
         System.out.println(key);
         if(key.getKeyType() == KeyType.ArrowUp){
             moveHero(hero.moveUp());
+            if(verifyMonsterCollisions(hero.moveUp())){flag = true;}
         }
         if(key.getKeyType() == KeyType.ArrowDown){
             moveHero(hero.moveDown());
+            if(verifyMonsterCollisions(hero.moveDown())){flag = true;}
         }
         if(key.getKeyType() == KeyType.ArrowLeft){
             moveHero(hero.moveLeft());
+            if(verifyMonsterCollisions(hero.moveLeft())){flag = true;}
         }
         if(key.getKeyType() == KeyType.ArrowRight){
             moveHero(hero.moveRight());
+            if(verifyMonsterCollisions(hero.moveRight())){flag = true;}
         }
     }
     private void moveHero(Position position){
@@ -147,7 +154,9 @@ public class Arena {
             System.out.println("You WON!");
             return true;
         }
-        for(Element.Coin coin : coins){
+        if (flag){return true;}
+
+        for(Coin coin : coins){
             if(coin.getX() == position.getx() && coin.getY() == position.gety()){
                 coins.remove(coin);
                 break;
@@ -155,7 +164,7 @@ public class Arena {
         }
         return false;
     }
-    public boolean verifyMonsterCollisions(){
+    public boolean verifyMonsterCollisions(Position position){
         for(Monster monster : monsters){
             if(monster.getPosition().getx() == position.getx() && monster.getPosition().gety() == position.gety()){
                 System.out.println("WASTED");
