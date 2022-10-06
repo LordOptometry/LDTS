@@ -5,7 +5,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 
 import java.util.List;
 
-public class Wall {
+public class Wall extends Element{
     private List<Wall> walls;
     private Position position;
     private TextGraphics graphics;
@@ -16,6 +16,11 @@ public class Wall {
 
     public Position getPosition() {
         return position;
+    }
+
+    @Override
+    void draw() {
+
     }
 
     public void draw(TextGraphics graphics) {
