@@ -9,6 +9,7 @@ import com.googlecode.lanterna.input.KeyType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arena {
     private int width;
@@ -19,6 +20,8 @@ public class Arena {
 
     private List<Wall> walls;
 
+    private List<Element.Coin> coins;
+
     Position position = new Position(10, 10);
 
     public Arena(int width, int height) throws IOException {
@@ -26,8 +29,8 @@ public class Arena {
         this.height = height;
         hero = new Hero(position);
         this.walls = createWalls();
+        this.coins = createCoins();
     }
-
     private List<Wall> createWalls(){
         List<Wall> walls = new ArrayList<>();
 
@@ -47,10 +50,17 @@ public class Arena {
 
         return walls;
     }
+    private List<Element.Coin> createCoins() {
+        Random random = new Random();
+        ArrayList<Element.Coin> coins = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            coins.add(new Element.Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+        return coins;
+    }
 
     public void draw(TextGraphics graphics){
         this.graphics = graphics;
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#38E538"));
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#2FA911"));
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
         graphics.setForegroundColor(TextColor.Factory.fromString("#D11D1D"));
         graphics.enableModifiers(SGR.BOLD);
@@ -59,21 +69,28 @@ public class Arena {
         for (Wall wall : walls){
             wall.draw(graphics);
         }
+        for(Element.Coin coin : coins){
+            coin.draw(graphics);
+        }
     }
 
     public void processKey(KeyStroke key){
         System.out.println(key);
         if(key.getKeyType() == KeyType.ArrowUp){
             moveHero(hero.moveUp());
+            retrieveCoins(hero.moveUp());
         }
         if(key.getKeyType() == KeyType.ArrowDown){
             moveHero(hero.moveDown());
+            retrieveCoins(hero.moveDown());
         }
         if(key.getKeyType() == KeyType.ArrowLeft){
             moveHero(hero.moveLeft());
+            retrieveCoins(hero.moveLeft());
         }
         if(key.getKeyType() == KeyType.ArrowRight){
             moveHero(hero.moveRight());
+            retrieveCoins(hero.moveRight());
         }
     }
     private void moveHero(Position position){
@@ -83,21 +100,20 @@ public class Arena {
     }
     public boolean canHeroMove(Position position){
        for(Wall wall : walls){
-           if(wall.getPosition().equals(position)){
+           if(wall.getPosition().getx() == position.getx() && wall.getPosition().gety() == position.gety()){
                return false;
            }
        }
        return true;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        if (getClass() != o.getClass()) return false;
-        Position p = (Position) o;
-        return position.getx() == p.getx() && position.gety() == p.gety();
+    public void retrieveCoins(Position position){
+        for(Element.Coin coin : coins){
+            if(coin.getX() == position.getx() && coin.getY() == position.gety()){
+                coins.remove(coin);
+                break;
+            }
+        }
     }
-
 }
 

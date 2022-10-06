@@ -15,9 +15,6 @@ public class Position {
     public int gety() {
         return y;
     }
-    public void setx(int x){this.x += x;}
-
-    public void sety(int y){this.y += y;}
 
     public void setpos(Position position) {
         this.x = position.getx();
