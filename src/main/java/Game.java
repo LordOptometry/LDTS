@@ -35,6 +35,7 @@ public class Game {
             draw();
             KeyStroke key = screen.readInput();
             processKey(key);
+            arena.retrieveCoins();
             if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
                 screen.close();
             }

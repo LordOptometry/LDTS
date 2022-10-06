@@ -65,10 +65,14 @@ public class Arena {
     private List<Monster> createMonsters() {
         Random random = new Random();
         ArrayList<Monster> monsters = new ArrayList<>();
-        Position position2 = null;
-        for (int i = 0; i < 5; i++)
-            position2 = new Position (random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
-            monsters.add(new Monster(position2));
+
+        Position position2 = new Position (random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+        Position position3 = new Position (random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+        Position position4 = new Position (random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+
+        monsters.add(new Monster(position2));
+        monsters.add(new Monster(position3));
+        monsters.add(new Monster(position4));
         return monsters;
     }
     public void draw(TextGraphics graphics){
@@ -95,40 +99,44 @@ public class Arena {
         System.out.println(key);
         if(key.getKeyType() == KeyType.ArrowUp){
             moveHero(hero.moveUp());
-            retrieveCoins(hero.moveUp());
             verifyMonsterCollisions(hero.moveUp());
-            for (Monster monster : monsters){
-                monster.setPosition(monster.move());
-            }
+            moveMonster();
         }
         if(key.getKeyType() == KeyType.ArrowDown){
             moveHero(hero.moveDown());
-            retrieveCoins(hero.moveDown());
             verifyMonsterCollisions(hero.moveDown());
-            for (Monster monster : monsters){
-                monster.setPosition(monster.move());
-            }
+            moveMonster();
         }
         if(key.getKeyType() == KeyType.ArrowLeft){
             moveHero(hero.moveLeft());
-            retrieveCoins(hero.moveLeft());
             verifyMonsterCollisions(hero.moveLeft());
-            for (Monster monster : monsters){
-                monster.setPosition(monster.move());
-            }
+            moveMonster();
         }
         if(key.getKeyType() == KeyType.ArrowRight){
             moveHero(hero.moveRight());
-            retrieveCoins(hero.moveRight());
             verifyMonsterCollisions(hero.moveRight());
-            for (Monster monster : monsters){
-                monster.setPosition(monster.move());
-            }
+            moveMonster();
         }
     }
     private void moveHero(Position position){
         if(canHeroMove(position)) {
             hero.setPosition(position);
+        }
+    }
+
+    private void moveMonster(){
+        boolean flag = false;
+        for (Monster monster : monsters){
+            for(Wall wall : walls){
+                if(wall.getPosition().getx() == monster.move().getx() && wall.getPosition().gety() == monster.move().gety()){
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag){
+                flag = false;
+            }
+            else{monster.setPosition(monster.move());}
         }
     }
     public boolean canHeroMove(Position position){
@@ -140,7 +148,8 @@ public class Arena {
        return true;
     }
 
-    public void retrieveCoins(Position position){
+
+    public void retrieveCoins(){
         for(Element.Coin coin : coins){
             if(coin.getX() == position.getx() && coin.getY() == position.gety()){
                 coins.remove(coin);
@@ -151,8 +160,8 @@ public class Arena {
     public void verifyMonsterCollisions(Position position){
         for(Monster monster : monsters){
             if(monster.getPosition().getx() == position.getx() && monster.getPosition().gety() == position.gety()){
-                
-                System.out.println("wasted");
+
+                System.out.println("WASTED");
                 break;
             }
         }
